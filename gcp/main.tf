@@ -16,4 +16,13 @@ provider "google" {
 
 resource "google_compute_network" "my-vpc" {
   name = "my-vpc"
+  auto_create_subnetworks = "false"
+}
+
+resource "google_compute_subnetwork" "my-subnet" {
+  name          = "my-subnetwork"
+  ip_cidr_range = "${var.var_uc1_private_subnet}"
+  region        = "europe-southwest1"
+  network       = google_compute_network.my-vpc.id
+
 }
