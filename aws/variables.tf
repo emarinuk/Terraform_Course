@@ -31,3 +31,9 @@ variable "aws_secret_key" {
   description = "AWS Secret Key"
   type = string
 }
+
+variable "my_public_ip" {
+  description = "My Public IP"
+  type = string
+}
+

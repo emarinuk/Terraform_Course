@@ -45,3 +45,29 @@ resource "aws_default_route_table" "vpc_default_rt" {
     "Name" = "My Default RT"
   }
 }
+
+resource "aws_security_group" "default_security_group" {
+  vpc_id = aws_vpc.my_vpc.id
+  ingress {
+    from_port = 22
+    protocol  = "tcp"
+    to_port   = 22
+    #cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_public_ip]
+  }
+  ingress {
+    from_port = 80
+    protocol  = "tcp"
+    to_port   = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    protocol  = "-1" # any protocol
+    to_port   = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    "Name" = "Security Group"
+  }
+}
