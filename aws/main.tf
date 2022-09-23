@@ -100,11 +100,18 @@ resource "aws_default_security_group" "default_security_group" {
 
 variable "usernames" {
   type = list(string)
-  default = ["demo-user", "admin", "emarin"]
+  default = ["demo-user", "emarin"]
 }
+
 resource "aws_iam_user" "test" {
-#  name = "${element(var.usernames, count.index)}"
-  name = element(var.usernames, count.index)
-  path = "/system/"
-  count = length(var.usernames)
+  for_each = toset(var.usernames)
+    name = each.key
 }
+
+#resource "aws_iam_user" "test" {
+#  name = "${element(var.usernames, count.index)}"
+#  name = element(var.usernames, count.index)
+#  path = "/system/"
+#  count = length(var.usernames)
+#}
+
