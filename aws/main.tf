@@ -46,7 +46,7 @@ resource "aws_default_route_table" "vpc_default_rt" {
   }
 }
 
-resource "aws_security_group" "default_security_group" {
+resource "aws_default_security_group" "default_security_group" {
   vpc_id = aws_vpc.my_vpc.id
   ingress {
     from_port = 22
@@ -70,4 +70,17 @@ resource "aws_security_group" "default_security_group" {
   tags = {
     "Name" = "Security Group"
   }
+}
+
+resource "aws_instance" "my_vm" {
+  ami = "ami-06672d07f62285d1d"
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.my_subnet.id
+  vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
+  associate_public_ip_address = true
+  key_name = "production_ssh_key"
+  tags = {
+    "Name" = "My Machine"
+  }
+
 }
