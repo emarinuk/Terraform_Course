@@ -42,3 +42,8 @@ variable "ingress_ports" {
   type = list(number)
   default = [22, 80, 110, 143, 443, 993, 8080]
 }
+
+variable "istest" {
+  default = true
+  type = bool
+}

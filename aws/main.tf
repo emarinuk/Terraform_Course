@@ -124,3 +124,14 @@ resource "aws_iam_user" "test" {
 #  count = length(var.usernames)
 #}
 
+resource "aws_instance" "test-server" {
+  ami="ami-06672d07f62285d1d"
+  instance_type = "t2.micro"
+  count = var.istest == true ? 1 : 0
+}
+
+resource "aws_instance" "prod-server" {
+  ami="ami-06672d07f62285d1d"
+  instance_type = "t2.large"
+  count = var.istest == true ? 0 : 1
+}
