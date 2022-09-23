@@ -15,24 +15,21 @@ provider "aws" {
 
 resource "aws_vpc" "my_vpc" {
   cidr_block = var.vpc_cidr_block
-  tags = {
-    "Name" = "Production ${var.main_vpc_name}"
-  }
+  tags = local.common-tags
 }
 
 resource "aws_subnet" "my_subnet" {
   vpc_id = aws_vpc.my_vpc.id
   cidr_block = var.web_subnet
   availability_zone = var.subnet_zone
-  tags = {
-    "Name" = "My Subnet"
-  }
+  tags = local.common-tags
 }
 
 resource "aws_internet_gateway" "my_web_igw" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    "Name" = "${var.main_vpc_name} IGW"
+    "Name" = "${local.common-tags["Name"]} IGW"
+    "Version" = local.common-tags["Version"]
   }
 }
 resource "aws_default_route_table" "vpc_default_rt" {
