@@ -91,18 +91,20 @@ resource "aws_default_security_group" "default_security_group" {
   }
 }
 
-#resource "aws_instance" "my_vm" {
+resource "aws_instance" "my_vm" {
 #  ami = data.aws_ami.latest_amazon_linux2.id
-#  instance_type = "t2.micro"
-#  subnet_id = aws_subnet.my_subnet.id
-#  vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
-#  associate_public_ip_address = true
-#  key_name = "production_ssh_key"
-#  count = 3 # how many?
-#  tags = {
-#    "Name" = "My Machine"
-#  }
-#}
+  ami = lookup(var.ami, var.region)
+  instance_type = "t2.micro"
+  subnet_id = aws_subnet.my_subnet.id
+  vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
+  associate_public_ip_address = true
+  key_name = "production_ssh_key"
+  user_data = "entry-script.sh"
+  count = 3 # how many?
+  tags = {
+    "Name" = "My Machine"
+  }
+}
 
 variable "usernames" {
   type = list(string)
@@ -121,11 +123,11 @@ resource "aws_iam_user" "test" {
 #  count = length(var.usernames)
 #}
 
-resource "aws_instance" "test-server" {
-  ami="ami-06672d07f62285d1d"
-  instance_type = "t2.micro"
-  count = var.istest == true ? 1 : 0
-}
+#resource "aws_instance" "test-server" {
+#  ami="ami-06672d07f62285d1d"
+#  instance_type = "t2.micro"
+#  count = var.istest == true ? 1 : 0
+#}
 
 resource "aws_instance" "prod-server" {
   ami="ami-06672d07f62285d1d"

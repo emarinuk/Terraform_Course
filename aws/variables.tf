@@ -47,3 +47,18 @@ variable "istest" {
   default = true
   type = bool
 }
+
+variable "region" {
+  type = string
+  default = "eu-central-1"
+}
+
+variable "ami" {
+  type = map(string)
+  default = {
+    "eu-west-1" = "ami-0ea0f26a6d50850c5"
+    "eu-west-2" = "ami-06672d07f62285d1d"
+    "eu-west-3" = "ami-0ddab716196087271"
+    "eu-central-1" = "ami-05ff5eaef6149df49"
+  }
+}
