@@ -7,4 +7,5 @@ locals {
     Environment = "Test"
     Version = 1.10
   }
+  time = formatdate("DD MM YYYY hh:mm", timestamp() )
 }
