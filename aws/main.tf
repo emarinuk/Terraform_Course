@@ -85,16 +85,26 @@ resource "aws_default_security_group" "default_security_group" {
   }
 }
 
-resource "aws_instance" "my_vm" {
-  ami = data.aws_ami.latest_amazon_linux2.id
-  instance_type = "t2.micro"
-  subnet_id = aws_subnet.my_subnet.id
-  vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
-  associate_public_ip_address = true
-  key_name = "production_ssh_key"
-  count = 3 # how many?
-  tags = {
-    "Name" = "My Machine"
-  }
+#resource "aws_instance" "my_vm" {
+#  ami = data.aws_ami.latest_amazon_linux2.id
+#  instance_type = "t2.micro"
+#  subnet_id = aws_subnet.my_subnet.id
+#  vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
+#  associate_public_ip_address = true
+#  key_name = "production_ssh_key"
+#  count = 3 # how many?
+#  tags = {
+#    "Name" = "My Machine"
+#  }
+#}
 
+variable "usernames" {
+  type = list(string)
+  default = ["demo-user", "admin", "emarin"]
+}
+resource "aws_iam_user" "test" {
+#  name = "${element(var.usernames, count.index)}"
+  name = element(var.usernames, count.index)
+  path = "/system/"
+  count = length(var.usernames)
 }
