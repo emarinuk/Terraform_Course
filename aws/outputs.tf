@@ -11,4 +11,7 @@ output "vpc_id" {
 output "ami_id" {
   description = "ID of AMI"
   value = aws_instance.my_vm.ami
+  sensitive = true
 }
+
+# terraform output -json
