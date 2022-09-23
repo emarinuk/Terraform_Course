@@ -92,12 +92,7 @@ resource "aws_instance" "my_vm" {
   vpc_security_group_ids = [aws_default_security_group.default_security_group.id]
   associate_public_ip_address = true
   key_name = "production_ssh_key"
-  user_data = <<EOF
-#!/bin/bash
-sudo yum -y update && yum -y install httpd
-sudo systemctl start httpd && sudo systemctl enable httpd
-sudo echo "<H1>Hello World</h1>" > /var/www/html/index.html
-EOF
+  count = 3 # how many?
   tags = {
     "Name" = "My Machine"
   }
