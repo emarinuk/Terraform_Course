@@ -61,18 +61,27 @@ data "aws_ami" "latest_amazon_linux2" {
 
 resource "aws_default_security_group" "default_security_group" {
   vpc_id = aws_vpc.my_vpc.id
-  ingress {
-    from_port = 22
-    protocol  = "tcp"
-    to_port   = 22
-    #cidr_blocks = ["0.0.0.0/0"]
-    cidr_blocks = [var.my_public_ip]
-  }
-  ingress {
-    from_port = 80
-    protocol  = "tcp"
-    to_port   = 80
-    cidr_blocks = ["0.0.0.0/0"]
+#  ingress {
+#    from_port = 22
+#    protocol  = "tcp"
+#    to_port   = 22
+#    #cidr_blocks = ["0.0.0.0/0"]
+#    cidr_blocks = [var.my_public_ip]
+#  }
+#  ingress {
+#    from_port = 80
+#    protocol  = "tcp"
+#    to_port   = 80
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+  dynamic "ingress" {
+    for_each = var.ingress_ports
+      content {
+        from_port = ingress.value
+        protocol  = "tcp"
+        to_port   = ingress.value
+        cidr_blocks = ["0.0.0.0/0"]
+      }
   }
   egress {
     from_port = 0

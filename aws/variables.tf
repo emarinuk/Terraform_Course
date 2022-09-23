@@ -37,3 +37,8 @@ variable "my_public_ip" {
   type = string
 }
 
+variable "ingress_ports" {
+  description = "List if ingress ports"
+  type = list(number)
+  default = [22, 80, 110, 143, 443, 993, 8080]
+}
