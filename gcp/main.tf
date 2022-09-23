@@ -21,8 +21,15 @@ resource "google_compute_network" "my-vpc" {
 
 resource "google_compute_subnetwork" "my-subnet" {
   name          = "my-subnetwork"
-  ip_cidr_range = "${var.var_uc1_private_subnet}"
+  ip_cidr_range = var.var_uc1_private_subnet
   region        = "europe-southwest1"
   network       = google_compute_network.my-vpc.id
 
 }
+
+resource "google_compute_ha_vpn_gateway" "my-igw" {
+  region   = "europe-southwest1"
+  name     = "my-igw"
+  network  = google_compute_network.my-vpc.id
+}
+
