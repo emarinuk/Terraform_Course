@@ -1,6 +1,6 @@
 output "ec2_public_ip" {
   description = "Public IP address of the instance"
-  value = aws_instance.my_vm[count.index].public_ip
+  value = aws_instance.my_vm.public_ip
 }
 
 output "vpc_id" {
@@ -10,7 +10,7 @@ output "vpc_id" {
 
 output "ami_id" {
   description = "ID of AMI"
-  value = aws_instance.my_vm[count.index].ami
+  value = aws_instance.my_vm.ami
   sensitive = true
 }
 

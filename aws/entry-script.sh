@@ -5,5 +5,5 @@ sudo systemctl start httpd && sudo systemctl enable httpd
 sudo yum -y install docker
 sudo systemctl start docker
 
-sudo usermod -aG docker ec2-usermod
+sudo usermod -aG docker ec2-user
 sudo docker container run -d -p 8080:80 nginx
